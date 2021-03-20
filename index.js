@@ -1,15 +1,23 @@
 const PDFDocument = require('pdfkit');
+const express = require('express');
+const app = express();
 const fs = require('fs');
 // Create a document
 const doc = new PDFDocument;
 
+app.use(express.json());
+
+
+app.post('/postYourJson',(req,res)=>{
+   var pdf = req.body.pdf;
+})
 // Pipe its output somewhere, like to a file or HTTP response
 // See below for browser usage
 doc.pipe(fs.createWriteStream(`${Math.floor(Math.random() * 100) + 1 + "m" + ".pdf"}`));
 
 // Embed a font, set the font size, and render some text
 doc.fontSize(25)
-   .text('Some text with an embedded font!', 100, 100);
+   .text(pdf, 100, 100);
 
 
 // Add another page
